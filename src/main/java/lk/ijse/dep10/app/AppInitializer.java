@@ -33,6 +33,7 @@ public class AppInitializer extends Application {
         primaryStage.centerOnScreen();
         primaryStage.sizeToScene();
         primaryStage.setMinWidth(900);
+        primaryStage.setMinHeight(600);
         primaryStage.show();
     }
 
@@ -54,13 +55,6 @@ public class AppInitializer extends Application {
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e);
-        }finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-                throw new RuntimeException(e);
-            }
         }
 
     }
