@@ -61,7 +61,12 @@ public class MainViewController {
         tblStudents.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("id"));
         tblStudents.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("name"));
         loadDatabaseData();
-
+        txtName.textProperty().addListener((observableValue, s, current) ->{
+            txtName.getStyleClass().remove("invalid");
+            if (!current.matches("[A-Za-z ]{3,}")) {
+                txtName.getStyleClass().add("invalid");
+            }
+        } );
     }
 
     private void loadDatabaseData() {
@@ -134,6 +139,7 @@ public class MainViewController {
     void btnSaveOnAction(ActionEvent event) {
         String id = txtId.getText();
         String name = txtName.getText();
+        if(!isDataValid(name))return;
         Image imageInput = profilePicture.getImage();
         BufferedImage bufferedImage = SwingFXUtils.fromFXImage(imageInput, null);
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -174,6 +180,16 @@ public class MainViewController {
         tblStudents.getItems().add(newStudent);
         btnNewStudent.fire();
 
+    }
+
+    private boolean isDataValid(String name) {
+        if (!name.matches("[A-Za-z ]{3,}")) {
+            txtName.selectAll();
+            txtName.requestFocus();
+            new Alert(Alert.AlertType.ERROR,"Invalid Name").showAndWait();
+            return false;
+        }
+        return true;
     }
 
     @FXML
